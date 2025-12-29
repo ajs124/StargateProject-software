@@ -208,35 +208,18 @@ EOT
 }
 
 function configure_systemd_service() {
-  # Load the logrotated configs
   echo 'Adding systemd service'
-#   sudo tee /etc/systemd/system/stargate.service > /dev/null <<EOT
-# [Unit]
-# Description=BuildAStargate.com Stargate Daemon (SG1)
-# After=multi-user.target
-# [Service]
-# Type=simple
-# Restart=always
-# WorkingDirectory=/home/pi/sg1_v4
-# ExecStart=/home/pi/venv_v4/bin/python /home/pi/sg1_v4/main.py
-# [Install]
-# WantedBy=multi-user.target
-# EOT
   sudo tee /etc/systemd/system/stargate.service > /dev/null <<EOT
 [Unit]
 Description=BuildAStargate.com Stargate Daemon (SG1)
-Requires=multi-user.target
-After=multi-user.target rc-local.service
-AllowIsolate=yes
+After=rc-local.service
 
 [Service]
-Type=simple
 WorkingDirectory=/home/pi/sg1_v4
 ExecStart=/home/pi/venv_v4/bin/python /home/pi/sg1_v4/main.py --daemon
 
 [Install]
 WantedBy=multi-user.target
-
 EOT
 
   echo 'Reloading systemd daemon configs'
