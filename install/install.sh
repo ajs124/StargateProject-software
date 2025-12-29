@@ -21,21 +21,21 @@ configure_hostname
 copy_wpa_supplicant
 config_users_and_passwords
 
-configure_git
-set_permissions
+#configure_git
+#set_permissions
 do_hardware_config
 apt_update_and_install
 init_venv
 
 configure_apache
 restart_apache
-configure_crontab
+#configure_crontab
 disable_pwr_mgmt
-disable_onboard_audio
-configure_audio
+#disable_onboard_audio
+#configure_audio
 configure_logrotate
 configure_systemd_service
-configure_wireguard
+#configure_wireguard
 
 # configure_firewall_ufw # Requires a reboot to complete w/o error.
 
