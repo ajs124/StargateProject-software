@@ -53,7 +53,7 @@ function apt_update_and_install() {
 
   # Install system-level dependencies
   echo 'Installing system-level dependencies...this may take a while.'
-  sudo apt-get install --no-install-recommends -y nano clang python3-dev python3-venv libasound2-dev avahi-daemon apache2 wireguard ufw python3-smbus i2c-tools netcat-traditional | sed 's/^/     /'
+  sudo apt-get install --no-install-recommends -y nano clang python3-dev python3-poetry libasound2-dev avahi-daemon apache2 wireguard ufw python3-smbus i2c-tools netcat-traditional | sed 's/^/     /'
 }
 
 function init_venv() {
@@ -63,22 +63,10 @@ function init_venv() {
   # Remove the env if it already exists
   [ ! -d './venv_v4' ] && rm -Rf /home/pi/venv_v4
 
-  echo 'Initializing Python virtual environment'
-  python3 -m venv venv_v4
-
   # Activate the venv and install some dependencies
-  echo 'Installing pip setuptools into the virtual environment'
-  source venv_v4/bin/activate
-  export CFLAGS=-fcommon
-  pip install setuptools | sed 's/^/     /'
-
-  # Install requirements.txt pip packages
-  echo 'Installing requirements.txt dependencies into the Virtual Environment'
-  source venv_v4/bin/activate
-  pip install -r sg1_v4/requirements.txt | sed 's/^/     /'
-
-  echo 'Deactivating the virtual environment'
-  deactivate
+  cd sg1_v4
+  echo "Installing python dependencies"
+  sudo poetry install
 }
 
 function configure_hostname() {
@@ -216,7 +204,7 @@ After=rc-local.service
 
 [Service]
 WorkingDirectory=/home/pi/sg1_v4
-ExecStart=/home/pi/venv_v4/bin/python /home/pi/sg1_v4/main.py --daemon
+ExecStart=poetry run python main.py --daemon
 
 [Install]
 WantedBy=multi-user.target
