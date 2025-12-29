@@ -89,12 +89,12 @@ function configure_hostname() {
 
   ## Add an entry for 127.0.1.1 stargate
   CONFIG='/etc/hosts'
-  if grep -Fq '127.0.1.1    stargate' $CONFIG > /dev/null
+  if grep -q '127\.0\.1\.1.*stargate' $CONFIG > /dev/null
   then
       echo 'hosts file already configured'
   else
       echo 'Configuring hosts file'
-      sudo sed -i '$i\\r\n127.0.1.1    stargate\r\n' $CONFIG > /dev/null
+      sudo sed -i '$i\\n127.0.1.1\tstargate\n' $CONFIG > /dev/null
       sudo sort -u /etc/hosts > /tmp/hosts.new && sudo mv /tmp/hosts.new /etc/hosts
   fi
 }
@@ -161,7 +161,7 @@ function disable_pwr_mgmt() {
       echo 'WiFi power management is already disabled'
   else
       echo 'Disabling WiFi power management'
-      sudo sed -i '$i\\r\n/sbin\/iw wlan0 set power_save off\r\n' $CONFIG
+      sudo sed -i '$i\\n/sbin\/iw wlan0 set power_save off\n' $CONFIG
   fi
 }
 
