@@ -45,7 +45,7 @@ dependencies = [
     "keyboard (>=0.13.5,<0.14.0)",
     "rollbar (>=1.3.0,<2.0.0)",
     "python-dotenv (>=1.2.1,<2.0.0)",
-    "simpleaudio (>=1.0.4,<2.0.0)",
+    "simpleaudio @ git+https://github.com/cexen/py-simple-audio@6a7cb95",
     "smbus (>=1.1.post2,<2.0)"
 ]
 
